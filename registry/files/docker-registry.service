@@ -1,0 +1,19 @@
+[Unit]
+Description=Docker Registry Service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+
+# Remove old containers
+ExecStartPre=/bin/docker-compose -f /vagrant/registry/docker-compose.yml down -v
+
+# Compose Up
+ExecStart=/bin/docker-compose -f /vagrant/registry/docker-compose.yml up
+
+# Compose Down
+ExecStop=/bin/docker-compose -f /vagrant/registry/docker-compose.yml down -v
+
+[Install]
+WantedBy=multi-user.target
